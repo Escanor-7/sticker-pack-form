@@ -4,8 +4,15 @@ import "@testing-library/jest-dom";
 
 import { CheckboxInput } from "./index";
 
+const checksMock = {
+  title: 'React',
+  value: 'react'
+}
+
 const mockComponent = () => {
-  render(<CheckboxInput />)
+  render(
+    <CheckboxInput title={checksMock.title} />
+  )
 }
 
 describe('CheckboxInput component', () => {
@@ -24,55 +31,15 @@ describe('CheckboxInput component', () => {
     expect(reactOption).toBeInTheDocument();
   });
 
-  it("Should display vue option", () => {
-    mockComponent();
-
-    const vueOption = screen.getByLabelText(/vue/i);
-
-    expect(vueOption).toBeInTheDocument();
-  });
-
-  it("Should display angular option", () => {
-    mockComponent();
-
-    const angularOption = screen.getByLabelText(/angular/i);
-
-    expect(angularOption).toBeInTheDocument();
-  });
-
   it("Should select the react option", () => {
     mockComponent();
 
     const reactCheckbox = screen.getByRole('checkbox', { name: /react/i });
 
-    expect(reactCheckbox.ariaChecked).toEqual("false");
+    expect(reactCheckbox).not.toBeChecked();
 
     fireEvent.click(reactCheckbox);
 
-    expect(reactCheckbox.ariaChecked).toEqual("true");
-  });
-
-  it("Should select the vue option", () => {
-    mockComponent();
-
-    const vueCheckbox = screen.getByRole('checkbox', { name: /vue/i });
-
-    expect(vueCheckbox.ariaChecked).toEqual("false");
-
-    fireEvent.click(vueCheckbox);
-
-    expect(vueCheckbox.ariaChecked).toEqual("true");
-  });
-
-  it("Should select the angular option", () => {
-    mockComponent();
-
-    const angularCheckbox = screen.getByRole('checkbox', { name: /angular/i });
-
-    expect(angularCheckbox.ariaChecked).toEqual("false");
-
-    fireEvent.click(angularCheckbox);
-
-    expect(angularCheckbox.ariaChecked).toEqual("true");
+    expect(reactCheckbox).toBeChecked();
   });
 })
